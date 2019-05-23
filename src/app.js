@@ -81,7 +81,6 @@ app.listen(app.get('port'), () => {
 });
 
 
-/*
 // PRODUCTION MODE
 Promise.all([
   sfdc.init(onPlatformEvent),
@@ -89,9 +88,9 @@ Promise.all([
 ]).catch(error => {
   LOG.error(error);
 });
-*/
 
 // TEST MODE
+/*
 LOG.info('Starting test sequence');
 trainDriver.connect()
   .then(() => trainDriver.setTrainThrottle(3, 127))
@@ -102,3 +101,4 @@ trainDriver.connect()
   .catch(error => {
       LOG.error(error);
   });
+*/
