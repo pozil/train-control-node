@@ -5,7 +5,7 @@ const express = require('express');
 import SalesforcePlatform from './salesforce-platform';
 import HornbyDriver from './hornbyDriver';
 import HornbyMockDriver from './hornbyMockDriver';
-import {sleep} from './sleep';
+import { sleep } from './sleep';
 import TrainRestResource from './rest/train';
 
 // Configure logs
@@ -52,30 +52,22 @@ process.on('unhandledRejection', (reason, p) => {
 process.once('SIGINT', shutdown);
 process.once('SIGTERM', shutdown);
 
-const EVENT_TRAIN_START = 'Train_Start';
-const EVENT_TRAIN_STOP = 'Train_Stop';
+const EVENT_TRAIN_PAYLOAD_RECEIVED = 'Train_Payload_Received';
+const EVENT_TRAIN_PAYLOAD_DELIVERED = 'Train_Payload_Delivered';
 
 
 const onPlatformEvent = platformEvent => {
   // Process event
   const eventData = platformEvent.data.payload;
   switch (eventData.Event__c) {
-    case EVENT_TRAIN_START:
-      onTrainStart(eventData);
+    case EVENT_TRAIN_PAYLOAD_RECEIVED:
+      trainDriver.setTrainThrottle(3, 127);
     break;
-    case EVENT_TRAIN_STOP:
-      onTrainStop(eventData);
+    case EVENT_TRAIN_PAYLOAD_DELIVERED:
+      trainDriver.setTrainThrottle(3, 127);
     break;
   }
 }
-
-const onTrainStart = eventData => {
-  trainDriver.setTrainThrottle(3, 127)
-};
-
-const onTrainStop = eventData => {
-  trainDriver.stopTrain(3);
-};
 
 // Setup HTTP server
 const app = express();
