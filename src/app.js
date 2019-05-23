@@ -1,9 +1,12 @@
 require('dotenv').config();
 const Winston = require('winston');
+const express = require('express');
+
 import SalesforcePlatform from './salesforce-platform';
 import HornbyDriver from './hornbyDriver';
 import HornbyMockDriver from './hornbyMockDriver';
 import {sleep} from './sleep';
+import TrainRestResource from './rest/train';
 
 // Configure logs
 Winston.loggers.add('App', {
@@ -73,6 +76,18 @@ const onTrainStart = eventData => {
 const onTrainStop = eventData => {
   trainDriver.stopTrain(3);
 };
+
+// Setup HTTP server
+const app = express();
+app.set('port', process.env.PORT || 8080);
+// Setup REST resources
+const apiRoot = '/api/';
+new TrainRestResource(app, apiRoot, trainDriver);
+// Start HTTP server
+app.listen(app.get('port'), () => {
+	console.log('Server started on port ' + app.get('port'));
+});
+
 
 /*
 // PRODUCTION MODE

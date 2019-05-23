@@ -20,12 +20,13 @@
   "author": "pozil",
   "license": "Apache-2.0",
   "dependencies": {
-    "nanotimer": "^0.3.15",
-    "serialport": "^7.1.4",
-    "winston": "^2.4.3",
     "cometd-node-promise-client": "^1.1.2",
+    "dotenv": "^5.0.1",
+    "express": "^4.17.0",
+    "nanotimer": "^0.3.15",
     "salesforce-node-client": "^1.2.2",
-    "dotenv": "^5.0.1"
+    "serialport": "^7.1.4",
+    "winston": "^2.4.3"
   },
   "devDependencies": {
     "@babel/cli": "^7.4.3",
