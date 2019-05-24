@@ -80,7 +80,7 @@ export default class HornbyDriver {
     _write(message) {
         return this._checkConnection()
             .then(() => {
-                LOG.debug('Writing', ByteUtils.bytesToString(message));
+                //LOG.debug('Writing', ByteUtils.bytesToString(message));
                 return new Promise((resolve, reject) => {
                     this.port.write(message, error => {
                         if (error) {
