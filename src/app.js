@@ -5,7 +5,6 @@ const express = require('express');
 import SalesforcePlatform from './salesforce-platform';
 import HornbyDriver from './hornbyDriver';
 import HornbyMockDriver from './hornbyMockDriver';
-import { sleep } from './sleep';
 import TrainRestResource from './rest/train';
 
 // Configure logs
