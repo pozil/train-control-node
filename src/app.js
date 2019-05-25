@@ -33,14 +33,14 @@ const shutdown = () => {
   isShuttingDown = true;
   console.log("\nGracefully shutting down from SIGINT (Ctrl-C) or SIGTERM");
   // Stop train and disconnect
-  Promise.all([
-    sfdc.disconnect(),
-    trainDriver.stopTrain(3).then(() => trainDriver.disconnect())
-  ]).then(process.exit(0))
-  .catch(error => {
-    LOG.error(error);
-    process.exit(-1);
-  });
+  trainDriver.stopTrain(3)
+    .then(() => trainDriver.disconnect())
+    .then(() => sfdc.disconnect())
+    .then(process.exit(0))
+    .catch(error => {
+      LOG.error(error);
+      process.exit(-1);
+    });  
 }
 
 // Process hooks
@@ -81,15 +81,15 @@ app.listen(app.get('port'), () => {
 
 
 // PRODUCTION MODE
-Promise.all([
-  sfdc.init(onPlatformEvent),
-  trainDriver.connect()
-]).catch(error => {
-  LOG.error(error);
-});
+trainDriver.connect()
+  .then(() => sfdc.init(onPlatformEvent))
+  .catch(error => {
+    LOG.error(error);
+  });
 
 // TEST MODE
 /*
+import { sleep } from './sleep';
 LOG.info('Starting test sequence');
 trainDriver.connect()
   .then(() => trainDriver.setTrainThrottle(3, 127))
@@ -97,7 +97,9 @@ trainDriver.connect()
   .then(() => trainDriver.stopTrain(3))
   .then(() => sleep(3))
   .then(() => trainDriver.disconnect())
+  .then(() => process.exit(0))
   .catch(error => {
       LOG.error(error);
+      process.exit(-1);
   });
 */
