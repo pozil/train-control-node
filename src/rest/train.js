@@ -1,9 +1,16 @@
-function TrainRestResource(app, apiRoot, driver) {
+function TrainRestResource(app, apiRoot, driver, sfdc) {
   this.driver = driver;
+  this.sfdc = sfdc;
   const resourceUrl = `${apiRoot}train`;
   
   app.post(`${resourceUrl}/stop`, (request, response) => {
+    const sender = (request.body.sender) ? request.body.sender : 'sensor1';
     this.driver.stopTrain(3)
+      .then(() => {
+        if (sender === 'sensor2') {
+          this.sfdc.publishEvent('Train_Payload_Delivered');
+        }
+      })
       .then(() => response.status(200).send({}))
       .catch(e => logAndReportError(response, 'train/stop', e));
   });

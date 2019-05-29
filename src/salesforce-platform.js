@@ -115,4 +115,21 @@ export default class SalesforcePlatform {
       });
     });
   }
+
+  publishEvent(eventName) {
+    const apiRequestOptions = this.client.data.createDataRequest(this.session, 'sobjects/Robot_Event__e');
+    apiRequestOptions.json = {
+      Event__c: eventName,
+      Device_Id__c: this.device.Id,
+      Feed_Id__c: this.device.Feed__c,
+    };
+    httpClient.post(apiRequestOptions, (error, response, body) => {
+      if (response && response.statusCode < 200 && response.statusCode > 299) {
+        LOG.error('Failed to publish event '+ eventName +' (HTTP '+ response.statusCode +')', body);
+      } else if (error) {
+        LOG.error('Failed to publish event '+ eventName, error);
+      }
+      LOG.debug('Published event '+ eventName);
+    });
+  }
 }
