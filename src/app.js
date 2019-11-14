@@ -108,7 +108,7 @@ function handleRobotEvent(event) {
 }
 
 async function onPayloadReceived() {
-  await rainDriver.setTrainThrottle(3, 127);
+  await trainDriver.setTrainThrottle(3, 127);
 }
 
 async function onPayloadDelivered() {
