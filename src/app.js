@@ -95,8 +95,8 @@ async function startApp() {
 
 
 function handleRobotEvent(event) {
-  logger.info(`Incoming robot event ${JSON.stringify(event)}`);
   const eventData = event.payload;
+  logger.info(`Incoming robot event ${JSON.stringify(eventData)}`);
   switch (eventData.Event__c) {
     case EVENT_TRAIN_PAYLOAD_RECEIVED:
       onPayloadReceived();
