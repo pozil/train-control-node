@@ -67,7 +67,7 @@ async function startApp() {
     }
 
     // Retrieve device
-    device = await sfdc.getDeviceFromHostname(getHostname());
+    const device = await sfdc.getDeviceFromHostname(getHostname());
 
     // Subscribe to robot platform event
     sfdc.subscribeToStreamingEvent('/event/Robot_Event__e', handleRobotEvent);
@@ -80,8 +80,13 @@ async function startApp() {
     app.set('port', process.env.PORT || 8080);
     app.use(bodyParser.json());
     // Setup REST resources
-    const apiRoot = '/api/';
-    new TrainRestResource(app, apiRoot, trainDriver, sfdc);
+    const trainRest = new TrainRestResource(trainDriver, sfdc, device);
+    app.post(`/api/train/stop`, (request, response) => {
+      trainRest.stopTrain(request, response);
+    });
+    app.post(`/api/train/start`, (request, response) => {
+      trainRest.startTrain(request, response);
+    });
     // Start HTTP server
     app.listen(app.get('port'), () => {
       logger.info(`HTTP server started on port ${app.get('port')}`);
