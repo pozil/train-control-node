@@ -1,7 +1,7 @@
 const NanoTimer = require('nanotimer');
-const Winston = require('winston');
+import getLogger from './logger.js';
 
-const LOG = Winston.loggers.get('App');
+const logger = getLogger('App');
 
 /**
  * Wait a number of seconds
@@ -9,7 +9,7 @@ const LOG = Winston.loggers.get('App');
  */
 export async function sleep(seconds) {
   return new Promise(resolve => {
-    LOG.debug(`Sleep ${seconds}s`);
+    logger.debug(`Sleep ${seconds}s`);
     const timer = new NanoTimer();
     timer.setTimeout(() => resolve(seconds), '', `${seconds}s`);
     timer.clearInterval();
@@ -22,7 +22,7 @@ export async function sleep(seconds) {
  */
 export async function usleep(micros) {
   return new Promise(resolve => {
-    LOG.debug(`Sleep ${micros}u`);
+    logger.debug(`Sleep ${micros}u`);
     const timer = new NanoTimer();
     timer.setTimeout(() => resolve(micros), '', `${micros}u`);
     timer.clearInterval();

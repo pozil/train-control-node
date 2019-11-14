@@ -1,3 +1,6 @@
+import getLogger from '../utils/logger.js';
+const logger = getLogger('REST');
+
 function TrainRestResource(app, apiRoot, driver, sfdc) {
   this.driver = driver;
   this.sfdc = sfdc;
@@ -25,6 +28,6 @@ function TrainRestResource(app, apiRoot, driver, sfdc) {
 export default TrainRestResource;
 
 logAndReportError = (response, calledMethod, e) => {
-  console.error(calledMethod, e.stack);
+  logger.error(`REST call failed: ${calledMethod}, Stack: ${e.stack}`);
   response.status(500).json(e);
 }

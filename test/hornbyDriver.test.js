@@ -1,5 +1,5 @@
-import HornbyDriver from '../src/hornbyDriver';
-import HornbyConstants from '../src/hornbyConstants';
+import HornbyDriver from '../src/devices/hornbyDriver';
+import HornbyConstants from '../src/devices/hornbyConstants';
 const SerialPort = require('serialport/test'),
   MockBinding = SerialPort.Binding;
 
@@ -50,16 +50,12 @@ describe('Hornby Driver', () => {
 
         it('throws error for speed < 0', () => {
             const driver = new HornbyDriver();
-            expect(() => {
-                driver.setTrainThrottle(3, -1);
-            }).toThrow(/out of range/);
+            return expect(driver.setTrainThrottle(3, -1)).rejects.toEqual(new Error('Speed -1 is out of range [0-127]'));
         });
 
         it('throws error for speed > 127', () => {
             const driver = new HornbyDriver();
-            expect(() => {
-                driver.setTrainThrottle(3, 128);
-            }).toThrow(/out of range/);
+            return expect(driver.setTrainThrottle(3, 128)).rejects.toEqual(new Error('Speed 128 is out of range [0-127]'));
         });
 
         it('accelerates forward', () => {

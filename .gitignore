@@ -11,5 +11,4 @@ dist
 push-to-raspberry.sh
 
 # Execution resources
-pid
-log
+*.log

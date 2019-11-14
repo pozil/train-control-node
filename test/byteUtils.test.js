@@ -1,4 +1,4 @@
-import ByteUtils from '../src/byteUtils';
+import ByteUtils from '../src/devices/byteUtils';
 
 describe('ByteUtils functions', () => {
 

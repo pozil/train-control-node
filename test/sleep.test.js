@@ -1,4 +1,4 @@
-import { sleep, usleep } from '../src/sleep';
+import { sleep, usleep } from '../src/utils/sleep';
 
 describe('sleep functions', () => {
 
