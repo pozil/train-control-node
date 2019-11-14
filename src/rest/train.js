@@ -15,7 +15,7 @@ export default class TrainRestResource {
       await this.driver.stopTrain(3);
       if (sender === 'sensor2') {
         await this.sfdc.publishPlatformEvent({
-          Event__c: EVENT_PALOAD_DELIVERED,
+          Event__c: 'Train_Payload_Delivered',
           Device_Id__c: this.device.Id,
           Feed_Id__c: this.device.Feed__c
         });
