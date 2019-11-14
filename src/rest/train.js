@@ -1,4 +1,5 @@
-import getLogger from '../utils/logger.js';
+import getLogger from '../utils/logger';
+import { usleep } from '../utils/sleep';
 const logger = getLogger('REST');
 
 export default class TrainRestResource {
@@ -12,6 +13,8 @@ export default class TrainRestResource {
     logger.info('Stop train');
     const sender = (request.body.sender) ? request.body.sender : 'sensor1';
     try {
+      await this.driver.stopTrain(3);
+      await usleep(100);
       await this.driver.stopTrain(3);
       if (sender === 'sensor2') {
         await this.sfdc.publishPlatformEvent({
@@ -30,6 +33,8 @@ export default class TrainRestResource {
   async startTrain(request, response) {
     logger.info('Start train');
     try {
+      await this.driver.setTrainThrottle(3, 127);
+      await usleep(100);
       await this.driver.setTrainThrottle(3, 127);
       response.status(200).send({});
     } catch (e) {
